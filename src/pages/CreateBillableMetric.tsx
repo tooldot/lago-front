@@ -1,35 +1,35 @@
-import { gql } from '@apollo/client'
-import { useFormik } from 'formik'
-import { useEffect, useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import { bool, object, string } from 'yup'
 import styled from 'styled-components'
-import { object, string } from 'yup'
+import { gql } from '@apollo/client'
 
-import { WarningDialog, WarningDialogRef } from '~/components/WarningDialog'
-import { BillableMetricCodeSnippet } from '~/components/billableMetrics/BillableMetricCodeSnippet'
-import { Accordion, Alert, Button, Skeleton, Typography } from '~/components/designSystem'
-import { ComboBoxField, JsonEditorField, TextInputField } from '~/components/form'
-import { FORM_ERRORS_ENUM } from '~/core/constants/form'
-import { BILLABLE_METRICS_ROUTE } from '~/core/router'
 import { AggregationTypeEnum, CreateBillableMetricInput } from '~/generated/graphql'
+import { PageHeader, theme, Card } from '~/styles'
+import { Typography, Button, Skeleton, Accordion, Alert } from '~/components/designSystem'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { TextInputField, ComboBoxField, JsonEditorField } from '~/components/form'
+import {
+  TextInputField,
+  ComboBoxField,
+  JsonEditorField,
+  ButtonSelectorField,
+} from '~/components/form'
 import { BILLABLE_METRICS_ROUTE } from '~/core/router'
 import { WarningDialog, WarningDialogRef } from '~/components/WarningDialog'
 import { useCreateEditBillableMetric } from '~/hooks/useCreateEditBillableMetric'
-import { Card, PageHeader, theme } from '~/styles'
+import { BillableMetricCodeSnippet } from '~/components/billableMetrics/BillableMetricCodeSnippet'
 import {
-  ButtonContainer,
-  Content,
-  Line,
   Main,
-  Side,
-  SkeletonHeader,
-  Subtitle,
+  Content,
   Title,
+  Subtitle,
+  Side,
+  Line,
+  SkeletonHeader,
+  ButtonContainer,
 } from '~/styles/mainObjectsForm'
+import { FORM_ERRORS_ENUM } from '~/core/constants/form'
 
 gql`
   fragment EditBillableMetric on BillableMetric {
@@ -243,20 +243,12 @@ const CreateBillableMetric = () => {
                         value: AggregationTypeEnum.MaxAgg,
                       },
                       {
-                        label: translate('text_62694d9181be8d00a33f2100'),
-                        value: AggregationTypeEnum.SumAgg,
-                        group: AGGREGATION_GROUP_ENUM.Metered,
-                      },
-                      {
                         label: translate('text_62694d9181be8d00a33f2108'),
                         value: AggregationTypeEnum.LatestAgg,
-                        group: AGGREGATION_GROUP_ENUM.Metered,
                       },
-
                       {
-                        label: translate('text_63105dbdd88c7432a3b255eb'),
-                        value: AggregationTypeEnum.RecurringCountAgg,
-                        group: AGGREGATION_GROUP_ENUM.Persistent,
+                        label: translate('text_62694d9181be8d00a33f2100'),
+                        value: AggregationTypeEnum.SumAgg,
                       },
                     ]}
                     helperText={
