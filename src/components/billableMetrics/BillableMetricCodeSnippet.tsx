@@ -1,6 +1,6 @@
-import { AggregationTypeEnum, CreateBillableMetricInput } from '~/generated/graphql'
 import { CodeSnippet } from '~/components/CodeSnippet'
 import { envGlobalVar } from '~/core/apolloClient'
+import { AggregationTypeEnum, CreateBillableMetricInput } from '~/generated/graphql'
 
 const { apiUrl } = envGlobalVar()
 
@@ -66,10 +66,10 @@ const getSnippets = (billableMetric?: CreateBillableMetricInput) => {
   --header 'Content-Type: application/json' \\
   --data-raw '{
     "event": {
-      "transaction_id": "__UNIQUE_ID__", 
+      "transaction_id": "__UNIQUE_ID__",
       "external_subscription_id": "__EXTERNAL_SUBSCRIPTION_ID__",
-      "external_customer_id": "__EXTERNAL_CUSTOMER_ID__", 
-      "code": "${code}", 
+      "external_customer_id": "__EXTERNAL_CUSTOMER_ID__",
+      "code": "${code}",
       "timestamp": $(date +%s)${
         groupDimension > 0
           ? `,
@@ -80,7 +80,7 @@ const getSnippets = (billableMetric?: CreateBillableMetricInput) => {
       }
     }
   }'
-  
+
 # To use the snippet, don’t forget to edit your __YOUR_API_KEY__, __UNIQUE_ID__, __EXTERNAL_SUBSCRIPTION_ID__ and __EXTERNAL_CUSTOMER_ID__
 ${groupDimensionMessage}
 `
@@ -91,12 +91,12 @@ ${groupDimensionMessage}
   --header 'Content-Type: application/json' \\
   --data-raw '{
     "event": {
-      "transaction_id": "__UNIQUE_ID__", 
+      "transaction_id": "__UNIQUE_ID__",
       "external_subscription_id": "__EXTERNAL_SUBSCRIPTION_ID__",
-      "external_customer_id": "__EXTERNAL_CUSTOMER_ID__", 
-      "code": "${code}", 
-      "timestamp": $(date +%s), 
-      "properties":  { 
+      "external_customer_id": "__EXTERNAL_CUSTOMER_ID__",
+      "code": "${code}",
+      "timestamp": $(date +%s),
+      "properties":  {
         "${fieldName}": "data"${
         groupDimension > 0
           ? `,
@@ -111,18 +111,19 @@ ${groupDimensionMessage}
 ${groupDimensionMessage}
 `
     case AggregationTypeEnum.SumAgg:
+    case AggregationTypeEnum.LatestAgg:
     case AggregationTypeEnum.MaxAgg:
       return `curl --location --request POST "${apiUrl}/api/v1/events" \\
   --header "Authorization: Bearer $__YOUR_API_KEY__" \\
   --header 'Content-Type: application/json' \\
   --data-raw '{
-    "event": { 
-      "transaction_id": "__UNIQUE_ID__", 
+    "event": {
+      "transaction_id": "__UNIQUE_ID__",
       "external_subscription_id": "__EXTERNAL_SUBSCRIPTION_ID__",
-      "external_customer_id": "__EXTERNAL_CUSTOMER_ID__", 
-      "code": "${code}", 
-      "timestamp": $(date +%s), 
-      "properties":  { 
+      "external_customer_id": "__EXTERNAL_CUSTOMER_ID__",
+      "code": "${code}",
+      "timestamp": $(date +%s),
+      "properties":  {
         "${fieldName}": 12${
         groupDimension > 0
           ? `,
@@ -141,13 +142,13 @@ ${groupDimensionMessage}
   --header "Authorization: Bearer $__YOUR_API_KEY__" \\
   --header 'Content-Type: application/json' \\
   --data-raw '{
-    "event": { 
-      "transaction_id": "__UNIQUE_ID__", 
+    "event": {
+      "transaction_id": "__UNIQUE_ID__",
       "external_subscription_id": "__EXTERNAL_SUBSCRIPTION_ID__",
-      "external_customer_id": "__EXTERNAL_CUSTOMER_ID__", 
-      "code": "${code}", 
-      "timestamp": $(date +%s), 
-      "properties":  { 
+      "external_customer_id": "__EXTERNAL_CUSTOMER_ID__",
+      "code": "${code}",
+      "timestamp": $(date +%s),
+      "properties":  {
         "${fieldName}": "__VALUE__" ,
         "operation_type": "add"${
           groupDimension > 0
@@ -158,7 +159,7 @@ ${groupDimensionMessage}
       }
     }
   }'
-  
+
 # To use the snippet, don’t forget to edit your __YOUR_API_KEY__, __UNIQUE_ID__, __EXTERNAL_SUBSCRIPTION_ID__, __EXTERNAL_CUSTOMER_ID__ and __VALUE__
 ${groupDimensionMessage}
 `
